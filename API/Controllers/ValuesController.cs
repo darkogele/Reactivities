@@ -9,6 +9,7 @@ using Persistence;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ValuesController : ControllerBase
     {
         private readonly DataContext _context;
@@ -32,13 +33,13 @@ namespace API.Controllers
             return Ok(value);
         }
 
-        [HttpPost]
+        [HttpPost()]
         public void Post([FromBody] string value)
         {
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string id, [FromBody] string value)
         {
         }
 
