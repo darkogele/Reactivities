@@ -20,6 +20,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .RegisterCORS()
                 .RegisterSwagger()
                 .ApplicationServices(_config);
         }
@@ -32,6 +33,8 @@ namespace API
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerDoc();
             }
+
+            app.UseCORS();
 
             app.UseHttpsRedirection();
 
