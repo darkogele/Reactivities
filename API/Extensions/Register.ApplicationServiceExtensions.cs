@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Marker;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistance;
@@ -19,6 +21,9 @@ namespace API.Extensions
             });
 
             // Dependensi injection services
+            services.AddMediatR(typeof(ApplicationMarker).Assembly);
+
+            services.AddAutoMapper(typeof(ApplicationMarker).Assembly);
 
             return services;
         }
