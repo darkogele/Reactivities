@@ -3,13 +3,12 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistance;
 using System.Collections.Generic;
-
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Activitites
 {
-    public static class List
+    public class List
     {
         public class Query : IRequest<List<Activity>> { }
 
@@ -24,7 +23,7 @@ namespace Application.Activitites
 
             public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Activities.ToListAsync();
+                return await _context.Activities.ToListAsync(cancellationToken);
             }
         }
     }
