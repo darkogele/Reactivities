@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Activitites
 {
-    public class List
+    public static class List
     {
         public class Query : IRequest<List<Activity>> { }
 
