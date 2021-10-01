@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Item, ItemContent, ItemDescription, ItemExtra, ItemGroup, ItemHeader, ItemMeta, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
@@ -16,29 +17,32 @@ export default observer(function ActivityList() {
     return (
         <Segment>
             <ItemGroup divided>
-                {activitiesByDate.map(activitie => (
-                    <Item key={activitie.id}>
+                {activitiesByDate.map(activity => (
+                    <Item key={activity.id}>
                         <ItemContent>
-                            <ItemHeader as='a'>{activitie.title}</ItemHeader>
-                            <ItemMeta>{activitie.date}</ItemMeta>
+                            <ItemHeader as='a'>{activity.title}</ItemHeader>
+                            <ItemMeta>{activity.date}</ItemMeta>
                             <ItemDescription>
-                                <div>{activitie.description}</div>
-                                <div>{activitie.city}, {activitie.venue}</div>
+                                <div>{activity.description}</div>
+                                <div>{activity.city}, {activity.venue}</div>
                             </ItemDescription>
                             <ItemExtra>
                                 <Button
-                                    onClick={() => activityStore.selectActivity(activitie.id)}
+                                    as={Link}
+                                    to={`/activities/${activity.id}`}
                                     floated='right'
                                     content='View'
-                                    color='blue' />
+                                    color='blue'
+                                />
                                 <Button
-                                    name={activitie.id}
-                                    loading={loading && target === activitie.id}
-                                    onClick={(e) => handleActivityDelete(e, activitie.id)}
+                                    name={activity.id}
+                                    loading={loading && target === activity.id}
+                                    onClick={(e) => handleActivityDelete(e, activity.id)}
                                     floated='right'
                                     content='Delete'
-                                    color='red' />
-                                <Label basic content={activitie.category} />
+                                    color='red'
+                                />
+                                <Label basic content={activity.category} />
                             </ItemExtra>
                         </ItemContent>
                     </Item>
