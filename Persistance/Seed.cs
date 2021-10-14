@@ -11,7 +11,7 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context)
         {
-            if (await context.Set<Activity>().AnyAsync()) return;
+            if (await context.Activities.AnyAsync()) return;
 
             var activities = new List<Activity>
             {
@@ -107,7 +107,7 @@ namespace Persistence
                 }
             };
 
-            await context.Set<Activity>().AddRangeAsync(activities);
+            await context.Activities.AddRangeAsync(activities);
             await context.SaveChangesAsync();
         }
     }

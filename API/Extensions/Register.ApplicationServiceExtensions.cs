@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistance;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace API.Extensions
 {
@@ -24,6 +26,10 @@ namespace API.Extensions
             services.AddMediatR(typeof(ApplicationMarker).Assembly);
 
             services.AddAutoMapper(typeof(ApplicationMarker).Assembly);
+
+            services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ApplicationMarker>());
+
+            //services.AddValidatorsFromAssembly(typeof(ApplicationMarker).Assembly);
 
             return services;
         }

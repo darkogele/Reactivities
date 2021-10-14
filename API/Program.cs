@@ -15,14 +15,13 @@ namespace API
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
             using var scope = host.Services.CreateScope();
-
             var services = scope.ServiceProvider;
 
             try
             {
                 var context = services.GetService<DataContext>();
+
                 await context.Database.MigrateAsync();
                 await Seed.SeedData(context);
             }
