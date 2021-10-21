@@ -13,7 +13,6 @@ const sleep = (delay: number) => {
 axios.defaults.baseURL = 'https://localhost:9999/api';
 
 axios.interceptors.response.use(async response => {
-
     await sleep(1000);
     return response;
 }, (error: AxiosError) => {
