@@ -1,11 +1,12 @@
 ﻿using Application.Marker;
+using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistance;
-using FluentValidation.AspNetCore;
-using FluentValidation;
+using Persistence;
 
 namespace API.Extensions
 {
@@ -14,7 +15,11 @@ namespace API.Extensions
         public static IServiceCollection ApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             // Dotnet build in services
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             // Database configuration
             services.AddDbContext<DataContext>(options =>
@@ -22,14 +27,12 @@ namespace API.Extensions
                 options.UseSqlite(config.GetConnectionString("SqlLite"));
             });
 
-            // Dependensi injection services
+            // Dependency injection services
             services.AddMediatR(typeof(ApplicationMarker).Assembly);
 
             services.AddAutoMapper(typeof(ApplicationMarker).Assembly);
 
             services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ApplicationMarker>());
-
-            //services.AddValidatorsFromAssembly(typeof(ApplicationMarker).Assembly);
 
             return services;
         }

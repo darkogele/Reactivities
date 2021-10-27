@@ -1,11 +1,11 @@
 ﻿using Application.Core;
 using MediatR;
-using Persistance;
+using Persistence;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Activitites
+namespace Application.Activities
 {
     public static class Delete
     {

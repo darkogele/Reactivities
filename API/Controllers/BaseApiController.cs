@@ -1,4 +1,5 @@
 
+using System.Net;
 using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace API.Controllers
 
         protected ActionResult HandleResult<T>(Result<T> result)
         {
+            if (result.StatusCodes == HttpStatusCode.Unauthorized)
+                return Unauthorized();
             if (result == null)
                 return NotFound();
             if (result.IsSuccess && result.Value != null)

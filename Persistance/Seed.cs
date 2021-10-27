@@ -1,6 +1,7 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistance;
+using Persistence.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,8 +10,41 @@ namespace Persistence
 {
     public static class Seed
     {
-        public static async Task SeedData(DataContext context)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
+            if (!await userManager.Users.AnyAsync())
+            {
+                var roles = new List<AppRole>
+                {
+                    new() { Name = RoleNames.ROLE_ADMIN },
+                    new() { Name = RoleNames.ROLE_MEMBER },
+                    new() { Name = RoleNames.ROLE_MODERATOR }
+                };
+
+                foreach (var role in roles)
+                {
+                    await roleManager.CreateAsync(role);
+                }
+
+                var users = new List<AppUser>
+                {
+                    new() { DisplayName = "Bob", UserName = "bob", Email = "bob@test.com" },
+                    new() { DisplayName = "Tom", UserName = "tom", Email = "tom@test.com" },
+                    new() { DisplayName = "Jane", UserName = "jane", Email = "jane@test.com" }
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
+                    await userManager.AddToRoleAsync(user, RoleNames.ROLE_MEMBER);
+                }
+
+                var admin = new AppUser { DisplayName = "AdminDaro", UserName = "daro", Email = "darkogele@hotrmail.com" };
+
+                await userManager.CreateAsync(admin, "Pa$$w0rd");
+                await userManager.AddToRoleAsync(admin, RoleNames.ROLE_ADMIN);
+            }
+
             if (await context.Activities.AnyAsync()) return;
 
             var activities = new List<Activity>

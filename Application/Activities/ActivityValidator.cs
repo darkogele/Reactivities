@@ -1,7 +1,7 @@
 ﻿using Domain;
 using FluentValidation;
 
-namespace Application.Activitites
+namespace Application.Activities
 {
     public class ActivityValidator : AbstractValidator<Activity>
     {

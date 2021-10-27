@@ -23,6 +23,7 @@ namespace API
             services
                 .RegisterCORS()
                 .RegisterSwagger()
+                .IdentityServices(_config)
                 .ApplicationServices(_config);
         }
 
@@ -42,6 +43,7 @@ namespace API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

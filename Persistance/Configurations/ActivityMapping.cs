@@ -2,7 +2,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistance.Configurations
+namespace Persistence.Configurations
 {
     public class ActivityMapping : IEntityTypeConfiguration<Activity>
     {

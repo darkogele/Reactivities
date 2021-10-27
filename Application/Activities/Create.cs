@@ -1,15 +1,14 @@
 ﻿using Application.Core;
-using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
-using Persistance;
+using Persistence;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Activitites
+namespace Application.Activities
 {
-    public static class Edit
+    public static class Create
     {
         public record Command(Activity Activity) : IRequest<Result<Unit>>;
 
@@ -24,25 +23,19 @@ namespace Application.Activitites
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await _context.Activities.FindAsync(request.Activity.Id);
-
-                if (activity == null) return null;
-
-                _mapper.Map(request.Activity, activity);
+                await _context.Activities.AddAsync(request.Activity);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if (!result) return Result<Unit>.Failure("Failed to update activity");
+                if (!result) return Result<Unit>.Failure("Failed to create activity");
 
                 return Result<Unit>.Success(Unit.Value);
             }

@@ -1,9 +1,10 @@
+using Domain;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Persistance;
 using Persistence;
 using System;
 using System.Threading.Tasks;
@@ -21,14 +22,16 @@ namespace API
             try
             {
                 var context = services.GetService<DataContext>();
+                var userManager = services.GetService<UserManager<AppUser>>();
+                var roleManager = services.GetService<RoleManager<AppRole>>();
 
                 await context.Database.MigrateAsync();
-                await Seed.SeedData(context);
+                await Seed.SeedData(context, userManager, roleManager);
             }
             catch (Exception ex)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occured durring migration");
+                logger.LogError(ex, "An error occured during migration");
             }
 
             await host.RunAsync();

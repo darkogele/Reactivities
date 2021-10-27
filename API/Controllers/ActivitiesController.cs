@@ -1,8 +1,7 @@
-﻿using Application.Activitites;
+﻿using Application.Activities;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
