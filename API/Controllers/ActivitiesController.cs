@@ -1,5 +1,6 @@
 ﻿using Application.Activities;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
         [HttpGet]

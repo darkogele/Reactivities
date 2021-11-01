@@ -1,9 +1,10 @@
 
-using System.Net;
 using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -25,6 +26,17 @@ namespace API.Controllers
                 return Ok(result.Value);
             if (result.IsSuccess && result.Value == null)
                 return NotFound();
+
+            if (result.ValidationError != null)
+            {
+                ModelState.AddModelError(result.ValidationError.Keys.First(), result.ValidationError.Values.First());
+                //foreach (var error in result.ValidationError)
+                //{
+                //    ModelState.AddModelError(error.Key, error.Value);
+                //}
+                return ValidationProblem(ModelState);
+            }
+
             return BadRequest(result.Error);
         }
     }

@@ -36,14 +36,14 @@ namespace Application.Account
                 {
                     var error = new Dictionary<string, string> { { "Email", "Email taken" } };
 
-                    return Result<UserDto>.Failure("Email taken");
+                    return Result<UserDto>.ValidationFailure(error);
                 }
 
                 if (await _userManager.Users.AnyAsync(x => x.UserName == request.RegisterDto.UserName, cancellationToken))
                 {
-                    var error = new Dictionary<string, string> { { "Email", "Email taken" } };
+                    var error = new Dictionary<string, string> { { "UserName", "UserName Taken" } };
 
-                    return Result<UserDto>.Failure("UserName Taken");
+                    return Result<UserDto>.ValidationFailure(error);
                 }
 
                 var user = _mapper.Map<AppUser>(request.RegisterDto);
