@@ -10,5 +10,7 @@ namespace Domain
         public string Bio { get; set; }
 
         public ICollection<AppUserRole> UserRoles { get; set; }
+
+        public ICollection<ActivityAttendee> Activities { get; set; }
     }
 }

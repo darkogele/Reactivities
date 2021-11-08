@@ -19,6 +19,11 @@ namespace Persistence.Configurations
             builder.Property(x => x.City).HasColumnType("nvarchar").HasMaxLength(50).IsRequired();
             builder.Property(x => x.Venue).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             builder.Property(x => x.Date).HasColumnType("date").IsRequired();
+
+            builder.HasMany(x => x.Attendees)
+                .WithOne(x => x.Activity)
+                .HasForeignKey(k => k.ActivityId)
+                .IsRequired();
         }
     }
 }

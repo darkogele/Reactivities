@@ -1,9 +1,9 @@
-using System;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Marker;
+using System;
 
 namespace Persistence
 {
@@ -13,6 +13,8 @@ namespace Persistence
         public DataContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Activity> Activities { get; set; }
+
+        public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

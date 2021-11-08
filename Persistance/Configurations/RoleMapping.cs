@@ -15,7 +15,9 @@ namespace Persistence.Configurations
             builder.Property(x => x.Id).HasColumnType("uniqueidentifier");
 
             builder.HasMany(ur => ur.UserRoles)
-                .WithOne(r => r.Role).HasForeignKey(r => r.RoleId).IsRequired();
+                .WithOne(r => r.Role)
+                .HasForeignKey(r => r.RoleId)
+                .IsRequired();
         }
     }
 }

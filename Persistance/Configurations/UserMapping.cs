@@ -17,7 +17,14 @@ namespace Persistence.Configurations
             builder.Property(x => x.DisplayName).HasColumnType("nvarchar").HasMaxLength(255).IsRequired();
 
             builder.HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.User).HasForeignKey(u => u.UserId).IsRequired();
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .IsRequired();
+
+            builder.HasMany(at => at.Activities)
+                .WithOne(u => u.AppUser)
+                .HasForeignKey(u => u.AppUserId)
+                .IsRequired();
         }
     }
 }

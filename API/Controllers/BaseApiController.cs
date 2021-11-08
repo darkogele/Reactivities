@@ -1,4 +1,3 @@
-
 using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,22 +17,22 @@ namespace API.Controllers
 
         protected ActionResult HandleResult<T>(Result<T> result)
         {
-            if (result.StatusCodes == HttpStatusCode.Unauthorized)
-                return Unauthorized();
             if (result == null)
                 return NotFound();
+
+            if (result.StatusCodes == HttpStatusCode.Unauthorized)
+                return Unauthorized();
+
             if (result.IsSuccess && result.Value != null)
                 return Ok(result.Value);
+
             if (result.IsSuccess && result.Value == null)
                 return NotFound();
 
             if (result.ValidationError != null)
             {
                 ModelState.AddModelError(result.ValidationError.Keys.First(), result.ValidationError.Values.First());
-                //foreach (var error in result.ValidationError)
-                //{
-                //    ModelState.AddModelError(error.Key, error.Value);
-                //}
+
                 return ValidationProblem(ModelState);
             }
 

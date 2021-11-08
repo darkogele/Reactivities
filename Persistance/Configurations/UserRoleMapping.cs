@@ -15,11 +15,13 @@ namespace Persistence.Configurations
 
             builder.HasOne(u => u.User)
                 .WithMany(ur => ur.UserRoles)
-                .HasForeignKey(u => u.UserId);
+                .HasForeignKey(u => u.UserId)
+                .IsRequired();
 
             builder.HasOne(r => r.Role)
                 .WithMany(ur => ur.UserRoles)
-                .HasForeignKey(r => r.RoleId);
+                .HasForeignKey(r => r.RoleId)
+                .IsRequired();
         }
     }
 }

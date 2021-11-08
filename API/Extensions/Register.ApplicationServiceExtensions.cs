@@ -1,5 +1,7 @@
-﻿using Application.Marker;
+﻿using Application.Interfaces;
+using Application.Marker;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -33,6 +35,8 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(ApplicationMarker).Assembly);
 
             services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ApplicationMarker>());
+
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
             return services;
         }
